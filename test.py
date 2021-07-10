@@ -6,7 +6,7 @@ import os
 from collections import defaultdict
 from functools import partial
 
-def main(target_cols, target_optims):
+def main(MCL_file, target_cols, target_optims):
     results = []
     for root, dirs, files in os.walk("ResNet18"):
         for file in files:
@@ -34,7 +34,7 @@ def main(target_cols, target_optims):
     # adding MCL to dict
     results_dict["MCL"] = average_valid_keys(
                                 dict_to_array(
-                                    get_data_dict("2021-06-22-03-02-08_resnet18_ADP-Release1_SGD_StepLR_15_0.5_LR=0.1_eta=0.001.xlsx",
+                                    get_data_dict(MCL_file,
                                               target_cols)))
 
     results_dict = reorganize_dicts(results_dict)
@@ -107,11 +107,11 @@ def average_all_dicts(list_of_dicts):
     
 
 if __name__ == "__main__":
-    path2file = "ResNet18/Adam_StepDecay/trial=0_ResNet18_ADP-Release1_AdaMweight_decay=0.0005_StepLRstep_size=25.0_gamma=0.5_LR=0.001.xlsx"
     target_cols = ["in_S", "out_S", "in_condition", "out_condition"]
-    target_optims = ["SGD", "MCL", "AdamP", 'Adam', 'SGDP', 'SAM', 'Adas']
+    target_optims = ["SGD", "MCL", "AdamP", 'Adas']
+    target_file = "2021-07-09-08-10-44_resnet18_ADP-Release1_SGD_StepLR_15_0.5_LR=0.1_eta=0.01.xlsx"
     # results = get_data_dict(path2file, target_cols)
     # results = dict_to_array(results)
     # print(results.keys())
     # print([value.shape for value in results.values()])
-    main(target_cols, target_optims)
+    main(target_file, target_cols, target_optims)
